@@ -1,0 +1,15 @@
+[workspace]
+members = ["server","plugin_api"]
+resolver = "2"
+
+[profile.dev]
+codegen-units = 32
+incremental = true
+debug-assertions = false
+overflow-checks = false
+opt-level = 0
+lto = "off"
+
+[profile.release]
+codegen-units = 1
+lto = "fat"
