@@ -73,7 +73,6 @@ impl HorizonServer {
             threads.push(thread.into());
             threads.len() - 1
         };
-        log_info!(LOGGER, "SERVER", "Spawned new thread at ID: {}", thread_id);
 
         Ok(thread_id)
     }
@@ -171,7 +170,7 @@ pub async fn start() -> anyhow::Result<()> {
     //let handles = Vec::new();
 
     let mut handles = vec![];
-    let spawn_futures = (0..thread_count).map(|_| {
+    let spawn_futures: Vec<_> = (0..thread_count).map(|_| {
         let server_instance = server.get_instance();
         {
             let mut value = handles.clone();
@@ -181,7 +180,7 @@ pub async fn start() -> anyhow::Result<()> {
                 }
             }
         }
-    });
+    }).collect();
 
     // Configure socket namespaces
     io.ns("/", on_connect);
