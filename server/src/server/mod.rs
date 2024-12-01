@@ -86,10 +86,11 @@ struct HorizonThread {
     plugins: HashMap<std::string::String, (Pluginstate, Plugin)>,
     handle: tokio::task::JoinHandle<()>,
 }
+
 impl HorizonThread {
     fn new() -> Self {
         let plugin_manager = plugin_api::PluginManager::new();
-        //plugin_manager.load_all();
+        plugin_manager.load_all();
         let plugins = plugin_manager.get_plugins();
         Self {
             players: Mutex::new(Vec::new()),
