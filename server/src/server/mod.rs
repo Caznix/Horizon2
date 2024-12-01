@@ -94,7 +94,11 @@ impl HorizonThread {
         Self {
             players: Mutex::new(Vec::new()),
             plugins: plugins,
-            handle: tokio::spawn(async move { loop {} }),
+            handle: tokio::spawn(async move {
+                loop {
+                    tokio::time::sleep(std::time::Duration::from_secs(10)).await;
+                }
+            }),
         }
     }
 
