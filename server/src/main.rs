@@ -49,22 +49,20 @@ pub static LOGGER: Lazy<HorizonLogger> = Lazy::new(|| {
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    let _profiler = dhat::Profiler::new_heap();
+    let mut _profiler = Some(dhat::Profiler::new_heap());
     splash();
     let config_init_time = std::time::Instant::now();
     //let server_config: std::sync::Arc<server::config::ServerConfig> = server_config().context("Failed to obtain server config")?;
     log_info!(LOGGER, "INIT", "Server config loaded in {:#?}", config_init_time.elapsed());
 
     let init_time = std::time::Instant::now();
-    log_info!(LOGGER, "INIT", "Starting server...");
 
     // Start the server
     server::start().await.context("Failed to start server")?;
 
 
-    log_info!(LOGGER, "INIT", "Server started in {:#?}", init_time.elapsed());
-    start().await?;
     let mut terminating: bool = false;
+    
     CTRL_C_HANDLER.call_once(|| {
         // Register the Ctrl+C handler
         ctrlc::set_handler(move ||  {
@@ -72,13 +70,13 @@ async fn main() -> Result<()> {
                 terminating = true;
 
                 println!("Exit");
-                //drop(_profiler.take());
+                drop(_profiler.take());
                 std::process::exit(0);
                 
             }
         },
 
-    ).expect("Failed to handle Ctrl+C")
+    ).expect("Failed to handle Ctrl+C");
     });
     Ok(())
 }
