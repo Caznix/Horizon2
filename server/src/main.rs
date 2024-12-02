@@ -24,9 +24,9 @@
 //=============================================================================//
 #[global_allocator]
 static ALLOC: dhat::Alloc = dhat::Alloc;
+
 static CTRL_C_HANDLER: Once = Once::new();
 use std::sync::Once;
-
 use once_cell::sync::Lazy;
 use server::{config::server_config, start};
 use splash::splash;
@@ -46,7 +46,6 @@ pub static LOGGER: Lazy<HorizonLogger> = Lazy::new(|| {
     let logger = HorizonLogger::new();
     logger
 });
-
 
 #[tokio::main]
 async fn main() -> Result<()> {
