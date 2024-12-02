@@ -25,6 +25,10 @@ ctrlc = { version = "3.4.5", features = ["termination"] }
 parking_lot = "0.12.3"
 rayon = "1.10.0"
 futures = "0.3.31"
+PebbleVault = "0.6.1"
+uuid = "1.11.0"
+nalgebra = "0.33.2"
+rstar = "0.12.2"
 
 # ADD ANY CUSTOM DEPENDENCIES BELOW
 

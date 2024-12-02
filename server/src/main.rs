@@ -34,6 +34,7 @@ use anyhow::{Context, Result};
 use horizon_logger::{HorizonLogger, log_info, log_debug, log_warn, log_error, log_critical};
 mod server;
 mod splash;
+mod collision;
 
 //------------------------------------------------------------------------------
 // Global Logger Configuration
@@ -49,6 +50,8 @@ pub static LOGGER: Lazy<HorizonLogger> = Lazy::new(|| {
 
 #[tokio::main]
 async fn main() -> Result<()> {
+    collision::main();
+
     let mut _profiler = Some(dhat::Profiler::new_heap());
     splash();
     let config_init_time = std::time::Instant::now();

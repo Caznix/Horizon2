@@ -15,15 +15,13 @@
 //-----------------------------------------------------------------------------
 
 use crate::LOGGER;
-use anyhow::{anyhow, Context, Result};
+use anyhow::{Context, Result};
 use axum::{routing::get, Router};
-use config::{server_config, ServerConfig, SERVER_CONFIG};
+use config::ServerConfig;
 use horizon_data_types::Player;
 use horizon_logger::{log_critical, log_debug, log_error, log_info, log_warn};
-use lazy_static::lazy_static;
 use parking_lot::RwLock;
 use plugin_api::{Plugin, Pluginstate};
-use rayon::prelude::*;
 use socketioxide::{
     extract::{AckSender, Data, SocketRef},
     SocketIo,
@@ -32,6 +30,7 @@ use std::collections::HashMap;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 pub mod config;
+mod event_rep;
 
 // Server state management
 
